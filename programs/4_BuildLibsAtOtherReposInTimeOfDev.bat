@@ -27,7 +27,7 @@ if exist %extDir%\%zipfilename% GOTO Extract
 
 :Extract
 @rem 解凍フォルダがあるならコピー
-if exist %extDir%\%Temp2% GOTO Copy
+if exist %extDir%\%tmpDir% GOTO Copy
 @rem ZIPファイルを一時ディレクトリに解凍
 @powershell -NoProfile -ExecutionPolicy Bypass -Command "expand-archive %zipfilename%"
 
