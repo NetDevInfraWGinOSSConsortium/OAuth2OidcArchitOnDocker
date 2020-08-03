@@ -1,0 +1,31 @@
+Open Touryo Project Status
+=============================
+
+Project Status
+==============
+Open Touryo was an in-house tool of Hitachi Solutions, Ltd. 
+Open Touryo was released as open source in April 2014.
+And it was forked by the Open Touryo project.
+
+Project Details
+===============
+
+Web site: 
+ - https://opentouryo.osscons.jp/
+ - https://github.com/OpenTouryoProject/OpenTouryo/wiki
+
+Issue Tracking:
+ - https://github.com/OpenTouryoProject/MultiPurposeAuthSite/issues
+ 
+Source Code: 
+ - https://github.com/OpenTouryoProject/MultiPurposeAuthSite
+
+Mailing Lists:
+  User: ws-dotNetDevInfra-contact@osscons.jp
+  Dev:  ws-dotNetDevInfra-contact@osscons.jp
+
+Active Committers
+=================
+
+* daisuke nishino
+
