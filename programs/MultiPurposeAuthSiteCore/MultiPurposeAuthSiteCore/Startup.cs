@@ -46,7 +46,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Caching.Memory;
 
-//using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using StackExchange.Redis;
 
 using Touryo.Infrastructure.Framework.Authentication;
 using Touryo.Infrastructure.Framework.StdMigration;
@@ -91,34 +91,21 @@ namespace MultiPurposeAuthSite
         /// </summary>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {            
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-
-                // The default HSTS value is 30 days.
-                // You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
             // HttpContextのマイグレーション用
             app._UseHttpContextAccessor();
 
+            app.UseStaticFiles();
+            app.UseHsts();
             app.UseHttpsRedirection();
 
-            // /wwwroot（既定の）の
-            // 静的ファイルをパイプラインに追加
-            app.UseStaticFiles();
+            app.UseDeveloperExceptionPage();
+            //app.UseExceptionHandler("/Home/Error");
 
             // Cookieを使用する。
             app.UseCookiePolicy(new CookiePolicyOptions()
             {
                 HttpOnly = HttpOnlyPolicy.Always,
-                // https://github.com/aspnet/Security/issues/1822
-                MinimumSameSitePolicy = SameSiteMode.None, //SameSiteMode.Strict,
+                MinimumSameSitePolicy = SameSiteMode.Strict,
                 //Secure= CookieSecurePolicy.Always
             });
 
@@ -131,7 +118,7 @@ namespace MultiPurposeAuthSite
                 {
                     Expiration = TimeSpan.FromDays(1), // 効かない
                     HttpOnly = true,
-                    Name = GetConfigParameter.GetAnyConfigValue("sessionState:SessionCookieName"),
+                    Name = "mas_session",
                     Path = "/",
                     SameSite = SameSiteMode.Strict,
                     SecurePolicy = CookieSecurePolicy.SameAsRequest
@@ -274,10 +261,37 @@ namespace MultiPurposeAuthSite
                 options.CheckConsentNeeded = context => true;
             });
 
-                // Sessionのモード
-                services.AddDistributedMemoryCache(); // 開発用
-                //services.AddDistributedSqlServerCache();
-                //services.AddDistributedRedisCache();
+            #region Redisはインフラ
+            
+            string redisConfig = Environment.GetEnvironmentVariable("RedisConfig");
+            if (string.IsNullOrEmpty(redisConfig))
+            {
+                redisConfig = "localhost";
+            }
+            
+            string redisInstanceName = Environment.GetEnvironmentVariable("RedisInstanceName");
+            if (string.IsNullOrEmpty(redisInstanceName))
+            {
+                redisInstanceName = "redis";
+            }
+            
+            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(redisConfig);
+            #endregion
+
+            // DataProtection
+            services
+                .AddDataProtection()
+                .SetApplicationName("MultiPurposeAuthSiteCore")
+                .PersistKeysToStackExchangeRedis(redis, "DataProtectionKeys");
+
+            // Sessionのモード
+            //services.AddDistributedMemoryCache();
+            //services.AddDistributedSqlServerCache();
+            services.AddStackExchangeRedisCache(option =>
+            {
+                option.Configuration = redisConfig;
+                option.InstanceName = redisInstanceName;
+            });            
 
             // Sessionを使用する。
             services.AddSession();

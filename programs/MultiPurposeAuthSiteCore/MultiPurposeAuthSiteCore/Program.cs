@@ -18,6 +18,7 @@
 //*  2018/11/30  西野 大介         新規
 //**********************************************************************************
 
+using System;
 using System.Net.Http;
 
 using Microsoft.AspNetCore;
@@ -50,8 +51,15 @@ namespace MultiPurposeAuthSite
         {
             // WebHost経由で、IWebHost, IWebHostBuilderにアクセスする。
 
+            string url = Environment.GetEnvironmentVariable("UseUrl");
+            if (string.IsNullOrEmpty(url))
+            {
+                url = "http://0.0.0.0:5000/";
+            }
+
             return WebHost.CreateDefaultBuilder(args) //  IWebHostBuilderを取得する。
                 .UseStartup<Startup>() // IWebHostBuilder.UseStartup<TStartup> メソッドにStartupクラスを指定。
+                .UseUrls(url) // 使用するプロトコルとポートを決定する。
                 .Build(); // IWebHostBuilder.Build メソッドでIWebHostクラスインスタンスを返す。
         }
     }
