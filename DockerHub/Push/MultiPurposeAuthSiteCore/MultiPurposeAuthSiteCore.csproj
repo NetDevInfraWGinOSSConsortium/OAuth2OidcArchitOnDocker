@@ -14,19 +14,30 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\..\..\files\resource\Log\SampleLogConf.xml" Link="Log\SampleLogConf.xml">
+    <Compile Remove="Assemblies\**" />
+    <Compile Remove="files\**" />
+    <Content Remove="Assemblies\**" />
+    <Content Remove="files\**" />
+    <EmbeddedResource Remove="Assemblies\**" />
+    <EmbeddedResource Remove="files\**" />
+    <None Remove="Assemblies\**" />
+    <None Remove="files\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include=".\files\resource\Log\SampleLogConf.xml" Link="Log\SampleLogConf.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Xml\MSGDefinition.xml" Link="Xml\MSGDefinition.xml">
+    <Content Include=".\files\resource\Xml\MSGDefinition.xml" Link="Xml\MSGDefinition.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Xml\MSGDefinition_ja.xml" Link="Xml\MSGDefinition_ja.xml">
+    <Content Include=".\files\resource\Xml\MSGDefinition_ja.xml" Link="Xml\MSGDefinition_ja.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Xml\MSGDefinition_zh-CN.xml" Link="Xml\MSGDefinition_zh-CN.xml">
+    <Content Include=".\files\resource\Xml\MSGDefinition_zh-CN.xml" Link="Xml\MSGDefinition_zh-CN.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Xml\SPDefinition.xml" Link="Xml\SPDefinition.xml">
+    <Content Include=".\files\resource\Xml\SPDefinition.xml" Link="Xml\SPDefinition.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -43,87 +54,90 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\..\..\files\resource\FirebaseServiceAccountKey.json" Link="FirebaseServiceAccountKey.json">
+    <Content Include=".\files\resource\FirebaseServiceAccountKey.json" Link="FirebaseServiceAccountKey.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\JwkSet.json" Link="JwkSet.json">
+    <Content Include=".\files\resource\JwkSet.json" Link="JwkSet.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\AccountChangeWasCompletedEmailMsg.ja.txt" Link="Txt\AccountChangeWasCompletedEmailMsg.ja.txt">
+    <Content Include=".\files\resource\Txt\AccountChangeWasCompletedEmailMsg.ja.txt" Link="Txt\AccountChangeWasCompletedEmailMsg.ja.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\AccountChangeWasCompletedEmailMsg.txt" Link="Txt\AccountChangeWasCompletedEmailMsg.txt">
+    <Content Include=".\files\resource\Txt\AccountChangeWasCompletedEmailMsg.txt" Link="Txt\AccountChangeWasCompletedEmailMsg.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\AccountChangeWasCompletedEmailTitle.ja.txt" Link="Txt\AccountChangeWasCompletedEmailTitle.ja.txt">
+    <Content Include=".\files\resource\Txt\AccountChangeWasCompletedEmailTitle.ja.txt" Link="Txt\AccountChangeWasCompletedEmailTitle.ja.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\AccountChangeWasCompletedEmailTitle.txt" Link="Txt\AccountChangeWasCompletedEmailTitle.txt">
+    <Content Include=".\files\resource\Txt\AccountChangeWasCompletedEmailTitle.txt" Link="Txt\AccountChangeWasCompletedEmailTitle.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\AddPhoneNumber.ja.txt" Link="Txt\AddPhoneNumber.ja.txt">
+    <Content Include=".\files\resource\Txt\AddPhoneNumber.ja.txt" Link="Txt\AddPhoneNumber.ja.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\AddPhoneNumber.txt" Link="Txt\AddPhoneNumber.txt">
+    <Content Include=".\files\resource\Txt\AddPhoneNumber.txt" Link="Txt\AddPhoneNumber.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\Agreement.ja.txt" Link="Txt\Agreement.ja.txt">
+    <Content Include=".\files\resource\Txt\Agreement.ja.txt" Link="Txt\Agreement.ja.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\Agreement.txt" Link="Txt\Agreement.txt">
+    <Content Include=".\files\resource\Txt\Agreement.txt" Link="Txt\Agreement.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\EmailConfirmationMsg.ja.txt" Link="Txt\EmailConfirmationMsg.ja.txt">
+    <Content Include=".\files\resource\Txt\EmailConfirmationMsg.ja.txt" Link="Txt\EmailConfirmationMsg.ja.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\EmailConfirmationMsg.txt" Link="Txt\EmailConfirmationMsg.txt">
+    <Content Include=".\files\resource\Txt\EmailConfirmationMsg.txt" Link="Txt\EmailConfirmationMsg.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\EmailConfirmationTitle.ja.txt" Link="Txt\EmailConfirmationTitle.ja.txt">
+    <Content Include=".\files\resource\Txt\EmailConfirmationTitle.ja.txt" Link="Txt\EmailConfirmationTitle.ja.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\EmailConfirmationTitle.txt" Link="Txt\EmailConfirmationTitle.txt">
+    <Content Include=".\files\resource\Txt\EmailConfirmationTitle.txt" Link="Txt\EmailConfirmationTitle.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\PasswordResetMsg.ja.txt" Link="Txt\PasswordResetMsg.ja.txt">
+    <Content Include=".\files\resource\Txt\PasswordResetMsg.ja.txt" Link="Txt\PasswordResetMsg.ja.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\PasswordResetMsg.txt" Link="Txt\PasswordResetMsg.txt">
+    <Content Include=".\files\resource\Txt\PasswordResetMsg.txt" Link="Txt\PasswordResetMsg.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\PasswordResetTitle.ja.txt" Link="Txt\PasswordResetTitle.ja.txt">
+    <Content Include=".\files\resource\Txt\PasswordResetTitle.ja.txt" Link="Txt\PasswordResetTitle.ja.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\PasswordResetTitle.txt" Link="Txt\PasswordResetTitle.txt">
+    <Content Include=".\files\resource\Txt\PasswordResetTitle.txt" Link="Txt\PasswordResetTitle.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\PasswordResetWasCompletedEmailMsg.ja.txt" Link="Txt\PasswordResetWasCompletedEmailMsg.ja.txt">
+    <Content Include=".\files\resource\Txt\PasswordResetWasCompletedEmailMsg.ja.txt" Link="Txt\PasswordResetWasCompletedEmailMsg.ja.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\PasswordResetWasCompletedEmailMsg.txt" Link="Txt\PasswordResetWasCompletedEmailMsg.txt">
+    <Content Include=".\files\resource\Txt\PasswordResetWasCompletedEmailMsg.txt" Link="Txt\PasswordResetWasCompletedEmailMsg.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\PasswordResetWasCompletedEmailTitle.ja.txt" Link="Txt\PasswordResetWasCompletedEmailTitle.ja.txt">
+    <Content Include=".\files\resource\Txt\PasswordResetWasCompletedEmailTitle.ja.txt" Link="Txt\PasswordResetWasCompletedEmailTitle.ja.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\PasswordResetWasCompletedEmailTitle.txt" Link="Txt\PasswordResetWasCompletedEmailTitle.txt">
+    <Content Include=".\files\resource\Txt\PasswordResetWasCompletedEmailTitle.txt" Link="Txt\PasswordResetWasCompletedEmailTitle.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\RegistationWasCompletedEmailMsg.ja.txt" Link="Txt\RegistationWasCompletedEmailMsg.ja.txt">
+    <Content Include=".\files\resource\Txt\RegistationWasCompletedEmailMsg.ja.txt" Link="Txt\RegistationWasCompletedEmailMsg.ja.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\RegistationWasCompletedEmailMsg.txt" Link="Txt\RegistationWasCompletedEmailMsg.txt">
+    <Content Include=".\files\resource\Txt\RegistationWasCompletedEmailMsg.txt" Link="Txt\RegistationWasCompletedEmailMsg.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\RegistationWasCompletedEmailTitle.ja.txt" Link="Txt\RegistationWasCompletedEmailTitle.ja.txt">
+    <Content Include=".\files\resource\Txt\RegistationWasCompletedEmailTitle.ja.txt" Link="Txt\RegistationWasCompletedEmailTitle.ja.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\Txt\RegistationWasCompletedEmailTitle.txt" Link="Txt\RegistationWasCompletedEmailTitle.txt">
+    <Content Include=".\files\resource\Txt\RegistationWasCompletedEmailTitle.txt" Link="Txt\RegistationWasCompletedEmailTitle.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FirebaseAdmin" Version="1.9.2" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="3.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.0.0" />
@@ -134,11 +148,18 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" PrivateAssets="All" />
     <PackageReference Include="StackExchange.Redis" Version="2.1.58" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
+    <PackageReference Include="System.Security.Cryptography.Cng" Version="4.7.0" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="4.7.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
+    <PackageReference Include="Npgsql" Version="4.0.3" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.18.3" />
+    <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.0.138" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="BouncyCastle.NetCore" Version="1.8.3" />
+    <PackageReference Include="Twilio" Version="5.23.0" />
     <PackageReference Include="Fido2" Version="1.0.1" />
+    <PackageReference Include="log4net" Version="2.0.8" />
   </ItemGroup>
 
   <ItemGroup>
@@ -148,81 +169,80 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\..\..\files\resource\X509\SHA256DSA.cer" Link="X509\SHA256DSA.cer">
+    <Content Include=".\files\resource\X509\SHA256DSA.cer" Link="X509\SHA256DSA.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256DSA.pfx" Link="X509\SHA256DSA.pfx">
+    <Content Include=".\files\resource\X509\SHA256DSA.pfx" Link="X509\SHA256DSA.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256ECDSA.cer" Link="X509\SHA256ECDSA.cer">
+    <Content Include=".\files\resource\X509\SHA256ECDSA.cer" Link="X509\SHA256ECDSA.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256ECDSA.pfx" Link="X509\SHA256ECDSA.pfx">
+    <Content Include=".\files\resource\X509\SHA256ECDSA.pfx" Link="X509\SHA256ECDSA.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256ECDSA_Client.cer" Link="X509\SHA256ECDSA_Client.cer">
+    <Content Include=".\files\resource\X509\SHA256ECDSA_Client.cer" Link="X509\SHA256ECDSA_Client.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256ECDSA_Client.pfx" Link="X509\SHA256ECDSA_Client.pfx">
+    <Content Include=".\files\resource\X509\SHA256ECDSA_Client.pfx" Link="X509\SHA256ECDSA_Client.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256ECDSA_Server.cer" Link="X509\SHA256ECDSA_Server.cer">
+    <Content Include=".\files\resource\X509\SHA256ECDSA_Server.cer" Link="X509\SHA256ECDSA_Server.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256ECDSA_Server.pfx" Link="X509\SHA256ECDSA_Server.pfx">
+    <Content Include=".\files\resource\X509\SHA256ECDSA_Server.pfx" Link="X509\SHA256ECDSA_Server.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256RSA.cer" Link="X509\SHA256RSA.cer">
+    <Content Include=".\files\resource\X509\SHA256RSA.cer" Link="X509\SHA256RSA.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256RSA.pfx" Link="X509\SHA256RSA.pfx">
+    <Content Include=".\files\resource\X509\SHA256RSA.pfx" Link="X509\SHA256RSA.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256RSAClientCert.pfx" Link="X509\SHA256RSAClientCert.pfx">
+    <Content Include=".\files\resource\X509\SHA256RSAClientCert.pfx" Link="X509\SHA256RSAClientCert.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256RSA_Client.cer" Link="X509\SHA256RSA_Client.cer">
+    <Content Include=".\files\resource\X509\SHA256RSA_Client.cer" Link="X509\SHA256RSA_Client.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256RSA_Client.pfx" Link="X509\SHA256RSA_Client.pfx">
+    <Content Include=".\files\resource\X509\SHA256RSA_Client.pfx" Link="X509\SHA256RSA_Client.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256RSA_Server.cer" Link="X509\SHA256RSA_Server.cer">
+    <Content Include=".\files\resource\X509\SHA256RSA_Server.cer" Link="X509\SHA256RSA_Server.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA256RSA_Server.pfx" Link="X509\SHA256RSA_Server.pfx">
+    <Content Include=".\files\resource\X509\SHA256RSA_Server.pfx" Link="X509\SHA256RSA_Server.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA384ECDSA.cer" Link="X509\SHA384ECDSA.cer">
+    <Content Include=".\files\resource\X509\SHA384ECDSA.cer" Link="X509\SHA384ECDSA.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA384ECDSA.pfx" Link="X509\SHA384ECDSA.pfx">
+    <Content Include=".\files\resource\X509\SHA384ECDSA.pfx" Link="X509\SHA384ECDSA.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA521ECDSA.cer" Link="X509\SHA521ECDSA.cer">
+    <Content Include=".\files\resource\X509\SHA521ECDSA.cer" Link="X509\SHA521ECDSA.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\files\resource\X509\SHA521ECDSA.pfx" Link="X509\SHA521ECDSA.pfx">
+    <Content Include=".\files\resource\X509\SHA521ECDSA.pfx" Link="X509\SHA521ECDSA.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CommonLibrary\NetCoreLibrary.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Reference Include="MultiPurposeAuthSite.NetCoreLibrary">
+      <HintPath>Assemblies\netcoreapp3.0\MultiPurposeAuthSite.NetCoreLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTouryo.Business">
-      <HintPath>..\..\OpenTouryoAssemblies\Build_netcore30\netcoreapp3.0\OpenTouryo.Business.dll</HintPath>
+      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.Business.dll</HintPath>
     </Reference>
     <Reference Include="OpenTouryo.Framework">
-      <HintPath>..\..\OpenTouryoAssemblies\Build_netcore30\netcoreapp3.0\OpenTouryo.Framework.dll</HintPath>
+      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.Framework.dll</HintPath>
     </Reference>
     <Reference Include="OpenTouryo.Public">
-      <HintPath>..\..\OpenTouryoAssemblies\Build_netcore30\netcoreapp3.0\OpenTouryo.Public.dll</HintPath>
+      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.Public.dll</HintPath>
     </Reference>
     <Reference Include="OpenTouryo.Public.Security">
-      <HintPath>..\..\OpenTouryoAssemblies\Build_netcore30\netcoreapp3.0\OpenTouryo.Public.Security.dll</HintPath>
+      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.Public.Security.dll</HintPath>
     </Reference>
   </ItemGroup>
 

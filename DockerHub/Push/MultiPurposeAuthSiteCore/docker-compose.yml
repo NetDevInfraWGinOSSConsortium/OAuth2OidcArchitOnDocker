@@ -1,6 +1,7 @@
 version: '3.4'
 services:
   multipurposeauthsitecore:
+    image: multipurposeauthsitecore:latest
     environment:
       - ASPNETCORE_URLS=http://+:5000
       - UseUrl=http://0.0.0.0:5000/
