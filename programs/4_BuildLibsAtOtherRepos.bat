@@ -7,17 +7,17 @@
 setlocal
 
 @rem ZIPファイル名
-set zipfilename=Temp.zip
+set zipfilename=Temp2.zip
 
 @rem GitHubのZIPパス
-set branchName=02-50
-set srcUrl=https://github.com/OpenTouryoProject/OpenTouryoTemplates/archive/%branchName%.zip
+set branchName=01-95
+set srcUrl=https://github.com/OpenTouryoProject/MultiPurposeAuthSite/archive/%branchName%.zip
 
 @rem 解凍ディレクトリ
 set extDir=%CD%
 
 @rem 一時ディレクトリ
-set tmpDir=Temp
+set tmpDir=Temp2
 
 :Download
 @rem ダウンロードされたZIPファイルがあるなら解凍
@@ -27,28 +27,13 @@ if exist %extDir%\%zipfilename% GOTO Extract
 @powershell -NoProfile -ExecutionPolicy Bypass -Command "$d=new-object System.Net.WebClient; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; $d.Proxy.Credentials=[System.Net.CredentialCache]::DefaultNetWorkCredentials; $d.DownloadFile('%srcUrl%','%extDir%/%zipfilename%')"
 
 :Extract
-@rem 一時ディレクトリがあるならビルドへ
-if exist %extDir%\%tmpDir% GOTO Build
-
+@rem 解凍フォルダがあるならコピー
+if exist %extDir%\%tmpDir% GOTO Copy
 @rem ZIPファイルを一時ディレクトリに解凍
 @powershell -NoProfile -ExecutionPolicy Bypass -Command "expand-archive %zipfilename%"
 
-:Build
-@rem ビルドがあるならコピーへ
-if exist "Temp\OpenTouryoTemplates-%branchName%\root_VS2019\programs\CS\Frameworks\Infrastructure\Build_netcore30" GOTO Xcopy
-
-@rem batファイルを使用してビルド
-cd "Temp\OpenTouryoTemplates-%branchName%\root_VS2019\programs\CS\"
-echo | call 3_Build_Business_net48.bat
-echo | call 3_Build_Business_netcore30.bat
-
-:Xcopy
-@rem ビルド出力をコピー
+@rem プロジェクトをコピー
+:Copy
 cd %extDir%
-xcopy /Y /E "Temp\OpenTouryoTemplates-%branchName%\root_VS2019\programs\CS\Frameworks\Infrastructure\Build_net48" "OpenTouryoAssemblies\Build_net48\"
-xcopy /Y /E "Temp\OpenTouryoTemplates-%branchName%\root_VS2019\programs\CS\Frameworks\Infrastructure\Build_netcore30" "OpenTouryoAssemblies\Build_netcore30\"
-
-pause
-
-:EOF
-endlocal
+xcopy /Y /E "Temp2\MultiPurposeAuthSite-develop\root\programs\CommandLineTools" "CommandLineTools\"
+xcopy /Y /E "Temp2\MultiPurposeAuthSite-develop\root\programs\CommonLibrary" "CommonLibrary\"

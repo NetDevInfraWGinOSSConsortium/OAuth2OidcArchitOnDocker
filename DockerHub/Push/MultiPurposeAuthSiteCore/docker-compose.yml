@@ -14,8 +14,6 @@ services:
       - ConnectionString_NPS=HOST=postgres;DATABASE=postgres;USER ID=postgres;PASSWORD=seigi@123;
     ports:
       - "44300:5001"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
     networks:
       - common_link
 
