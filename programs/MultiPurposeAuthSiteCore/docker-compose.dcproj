@@ -5,7 +5,7 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>38b74a69-a8cf-41e4-ba8b-f782427fadd3</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
+    <DockerServiceUrl>https://localhost:44300/</DockerServiceUrl>
     <DockerServiceName>multipurposeauthsitecore</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

@@ -96,7 +96,9 @@ namespace MultiPurposeAuthSite
 
             app.UseStaticFiles();
             app.UseHsts();
-            app.UseHttpsRedirection();
+
+            // 内部通信をHTTPS→HTTPにするので、コメントアウト。
+            //app.UseHttpsRedirection();
 
             app.UseDeveloperExceptionPage();
             //app.UseExceptionHandler("/Home/Error");
@@ -105,7 +107,8 @@ namespace MultiPurposeAuthSite
             app.UseCookiePolicy(new CookiePolicyOptions()
             {
                 HttpOnly = HttpOnlyPolicy.Always,
-                MinimumSameSitePolicy = SameSiteMode.Strict,
+                // https://github.com/aspnet/Security/issues/1822
+                MinimumSameSitePolicy = SameSiteMode.None, //SameSiteMode.Strict,
                 //Secure= CookieSecurePolicy.Always
             });
 
@@ -118,7 +121,7 @@ namespace MultiPurposeAuthSite
                 {
                     Expiration = TimeSpan.FromDays(1), // 効かない
                     HttpOnly = true,
-                    Name = "mas_session",
+                    Name = GetConfigParameter.GetAnyConfigValue("sessionState:SessionCookieName"),
                     Path = "/",
                     SameSite = SameSiteMode.Strict,
                     SecurePolicy = CookieSecurePolicy.SameAsRequest
