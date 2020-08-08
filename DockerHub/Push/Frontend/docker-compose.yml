@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  frontendhost:
+    image: frontendhost:latest
+    environment:
+      - UseUrl=http://0.0.0.0:5000/
+    ports:
+      - "3000:5000"
+    networks:
+      - common_link
+
+networks:
+  common_link:
+    external: true

@@ -17,6 +17,15 @@ services:
     networks:
       - common_link
 
+  frontendhost:
+    image: osscjpdevinfra/frontendhost:OAuth2OidcArchitOnDocker
+    environment:
+      - UseUrl=http://0.0.0.0:5000/
+    ports:
+      - "3000:5000"
+    networks:
+      - common_link
+
 networks:
   common_link:
     external: true
