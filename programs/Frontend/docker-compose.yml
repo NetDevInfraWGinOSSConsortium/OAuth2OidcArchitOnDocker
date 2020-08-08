@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  frontendhost:
+    image: ${DOCKER_REGISTRY-}frontendhost
+    build:
+      context: .
+      dockerfile: Host/Dockerfile

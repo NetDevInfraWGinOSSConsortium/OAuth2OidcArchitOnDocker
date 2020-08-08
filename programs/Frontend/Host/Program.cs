@@ -20,7 +20,15 @@ namespace FrontendHost
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                	string url = Environment.GetEnvironmentVariable("UseUrl");
+                    if (string.IsNullOrEmpty(url))
+                    {
+                        url = "http://0.0.0.0:5000/";
+                    }
+
+                    webBuilder//.UseStartup<Startup>();
+                        .UseStartup<Startup>() // IWebHostBuilder.UseStartup<TStartup> メソッドにStartupクラスを指定。
+                        .UseUrls(url); // 使用するプロトコルとポートを決定する。
                 });
     }
 }
