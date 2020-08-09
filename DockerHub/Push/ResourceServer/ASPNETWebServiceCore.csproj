@@ -66,6 +66,9 @@
     <EmbeddedResource Include="files\resource\Xml\MSGDefinition_ja.xml" Link="Xml\MSGDefinition_ja.xml" />
     <EmbeddedResource Include="files\resource\Xml\MSGDefinition_zh-CN.xml" Link="Xml\MSGDefinition_zh-CN.xml" />
     <EmbeddedResource Include="files\resource\Xml\SPDefinition.xml" Link="Xml\SPDefinition.xml" />
+    <EmbeddedResource Include="files\resource\Xml\TMInProcessDefinition.xml" Link="Xml\TMInProcessDefinition.xml" />
+    <EmbeddedResource Include="files\resource\Xml\TMProtocolDefinition.xml" Link="Xml\TMProtocolDefinition.xml" />
+    <EmbeddedResource Include="files\resource\Xml\TMProtocolDefinition2.xml" Link="Xml\TMProtocolDefinition2.xml" />
   </ItemGroup>
 
   <ItemGroup>
