@@ -16,6 +16,12 @@ echo | 4_BuildLibsAtOtherReposInTimeOfDev.bat
 @echo on
 timeout 5
 
+rem echo | 5_BuildLibsAtOtherRepos.bat
+echo | 5_BuildLibsAtOtherReposInTimeOfDev.bat
+
+@echo on
+timeout 5
+
 echo | 10_MultiPurposeAuthSiteCore.bat
 
 @echo on
