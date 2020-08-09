@@ -7,17 +7,16 @@
 setlocal
 
 @rem ZIPファイル名
-set zipfilename=Temp2.zip
+set zipfilename=Temp3.zip
 
 @rem GitHubのZIPパス
-set branchName=01-95
-set srcUrl=https://github.com/OpenTouryoProject/MultiPurposeAuthSite/archive/%branchName%.zip
+set srcUrl=https://github.com/OpenTouryoProject/ResourceServerTemplates/archive/develop.zip
 
 @rem 解凍ディレクトリ
 set extDir=%CD%
 
 @rem 一時ディレクトリ
-set tmpDir=Temp2
+set tmpDir=Temp3
 
 :Download
 @rem ダウンロードされたZIPファイルがあるなら解凍
@@ -35,5 +34,5 @@ if exist %extDir%\%tmpDir% GOTO Copy
 @rem プロジェクトをコピー
 :Copy
 cd %extDir%
-xcopy /Y /E "Temp2\MultiPurposeAuthSite-%branchName%\root\programs\CommandLineTools" "CommandLineTools\"
-xcopy /Y /E "Temp2\MultiPurposeAuthSite-%branchName%\root\programs\CommonLibrary" "CommonLibrary\"
+xcopy /Y /E "Temp3\ResourceServerTemplates-develop\root\programs\WS_sampleCore\WSIFType_sample" "WSIFType_sample\"
+xcopy /Y /E "Temp3\ResourceServerTemplates-develop\root\programs\WS_sampleCore\WSServer_sample" "WSServer_sample\"
