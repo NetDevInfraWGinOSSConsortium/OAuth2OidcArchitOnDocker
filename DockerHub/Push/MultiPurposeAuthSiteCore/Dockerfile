@@ -13,6 +13,6 @@ RUN dotnet publish -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 AS runtime
 WORKDIR /app
-COPY ["MultiPurposeAuthSiteCore/aspnetapp.pfx", "./"] # 追記
+COPY ["MultiPurposeAuthSiteCore/aspnetapp.pfx", "./"] # Added
 COPY --from=build /app/MultiPurposeAuthSiteCore/out ./
 ENTRYPOINT ["dotnet", "MultiPurposeAuthSite.dll"]

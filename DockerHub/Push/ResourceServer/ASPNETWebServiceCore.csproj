@@ -1,0 +1,115 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="files\**" />
+    <Compile Remove="Assemblies\**" />
+    <Content Remove="files\**" />
+    <Content Remove="Assemblies\**" />
+    <EmbeddedResource Remove="files\**" />
+    <EmbeddedResource Remove="Assemblies\**" />
+    <None Remove="files\**" />
+    <None Remove="Assemblies\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="files\resource\Log\SampleLogConf.xml" Link="Log\SampleLogConf.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoCategories_D1_Insert.xml" Link="Sql\DaoCategories_D1_Insert.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoCategories_D2_Select.xml" Link="Sql\DaoCategories_D2_Select.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoCategories_D3_Update.xml" Link="Sql\DaoCategories_D3_Update.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoCategories_D4_Delete.xml" Link="Sql\DaoCategories_D4_Delete.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoCategories_D5_SelCnt.xml" Link="Sql\DaoCategories_D5_SelCnt.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoCategories_S1_Insert.sql" Link="Sql\DaoCategories_S1_Insert.sql" />
+    <EmbeddedResource Include="files\resource\Sql\DaoCategories_S2_Select.xml" Link="Sql\DaoCategories_S2_Select.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoCategories_S3_Update.xml" Link="Sql\DaoCategories_S3_Update.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoCategories_S4_Delete.xml" Link="Sql\DaoCategories_S4_Delete.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoProducts_D1_Insert.xml" Link="Sql\DaoProducts_D1_Insert.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoProducts_S1_Insert.sql" Link="Sql\DaoProducts_S1_Insert.sql" />
+    <EmbeddedResource Include="files\resource\Sql\DaoProducts_S2_Select.xml" Link="Sql\DaoProducts_S2_Select.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoProducts_S3_Update.xml" Link="Sql\DaoProducts_S3_Update.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoProducts_S4_Delete.xml" Link="Sql\DaoProducts_S4_Delete.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoShippers_D1_Insert.xml" Link="Sql\DaoShippers_D1_Insert.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoShippers_D2_Select.xml" Link="Sql\DaoShippers_D2_Select.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoShippers_D3_Update.xml" Link="Sql\DaoShippers_D3_Update.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoShippers_D4_Delete.xml" Link="Sql\DaoShippers_D4_Delete.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoShippers_D5_SelCnt.xml" Link="Sql\DaoShippers_D5_SelCnt.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoShippers_S1_Insert.sql" Link="Sql\DaoShippers_S1_Insert.sql" />
+    <EmbeddedResource Include="files\resource\Sql\DaoShippers_S2_Select.xml" Link="Sql\DaoShippers_S2_Select.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoShippers_S3_Update.xml" Link="Sql\DaoShippers_S3_Update.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoShippers_S4_Delete.xml" Link="Sql\DaoShippers_S4_Delete.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoSuppliers_D1_Insert.xml" Link="Sql\DaoSuppliers_D1_Insert.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoSuppliers_D2_Select.xml" Link="Sql\DaoSuppliers_D2_Select.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoSuppliers_D3_Update.xml" Link="Sql\DaoSuppliers_D3_Update.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoSuppliers_D4_Delete.xml" Link="Sql\DaoSuppliers_D4_Delete.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoSuppliers_D5_SelCnt.xml" Link="Sql\DaoSuppliers_D5_SelCnt.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoSuppliers_S1_Insert.sql" Link="Sql\DaoSuppliers_S1_Insert.sql" />
+    <EmbeddedResource Include="files\resource\Sql\DaoSuppliers_S2_Select.xml" Link="Sql\DaoSuppliers_S2_Select.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoSuppliers_S3_Update.xml" Link="Sql\DaoSuppliers_S3_Update.xml" />
+    <EmbeddedResource Include="files\resource\Sql\DaoSuppliers_S4_Delete.xml" Link="Sql\DaoSuppliers_S4_Delete.xml" />
+    <EmbeddedResource Include="files\resource\Sql\ShipperCount.xml" Link="Sql\ShipperCount.xml" />
+    <EmbeddedResource Include="files\resource\Sql\ShipperDelete.xml" Link="Sql\ShipperDelete.xml" />
+    <EmbeddedResource Include="files\resource\Sql\ShipperSelect.xml" Link="Sql\ShipperSelect.xml" />
+    <EmbeddedResource Include="files\resource\Sql\ShipperSelectOrder.xml" Link="Sql\ShipperSelectOrder.xml" />
+    <EmbeddedResource Include="files\resource\Sql\ShipperUpdate.xml" Link="Sql\ShipperUpdate.xml" />
+    <EmbeddedResource Include="files\resource\Sql\ShipperCount.sql" Link="Sql\ShipperCount.sql" />
+    <EmbeddedResource Include="files\resource\Sql\ShipperDelete.sql" Link="Sql\ShipperDelete.sql" />
+    <EmbeddedResource Include="files\resource\Sql\ShipperInsert.sql" Link="Sql\ShipperInsert.sql" />
+    <EmbeddedResource Include="files\resource\Sql\ShipperSelect.sql" Link="Sql\ShipperSelect.sql" />
+    <EmbeddedResource Include="files\resource\Sql\ShipperSelectOrder.sql" Link="Sql\ShipperSelectOrder.sql" />
+    <EmbeddedResource Include="files\resource\Sql\ShipperUpdate.sql" Link="Sql\ShipperUpdate.sql" />
+    <EmbeddedResource Include="files\resource\Xml\MSGDefinition.xml" Link="Xml\MSGDefinition.xml" />
+    <EmbeddedResource Include="files\resource\Xml\MSGDefinition_ja.xml" Link="Xml\MSGDefinition_ja.xml" />
+    <EmbeddedResource Include="files\resource\Xml\MSGDefinition_zh-CN.xml" Link="Xml\MSGDefinition_zh-CN.xml" />
+    <EmbeddedResource Include="files\resource\Xml\SPDefinition.xml" Link="Xml\SPDefinition.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OpenTouryo.Business">
+      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.Business.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTouryo.DamManagedOdp">
+      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.DamManagedOdp.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTouryo.DamMySQL">
+      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.DamMySQL.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTouryo.DamPstGrS">
+      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.DamPstGrS.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTouryo.Framework">
+      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTouryo.Public">
+      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.Public.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTouryo.Public.Security">
+      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.Public.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="WSIFType_sample">
+      <HintPath>Assemblies\netcoreapp3.0\WSIFType_sample.dll</HintPath>
+    </Reference>
+    <Reference Include="WSServer_sample">
+      <HintPath>Assemblies\netcoreapp3.0\WSServer_sample.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="X509\SHA256RSA_Server.cer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

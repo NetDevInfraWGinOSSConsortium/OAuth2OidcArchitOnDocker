@@ -1,0 +1,7 @@
+xcopy /Y /E "..\..\..\programs\ResourceServer\ASPNETWebServiceCore" "ASPNETWebServiceCore\"
+xcopy /Y /E "..\..\..\files" "ASPNETWebServiceCore\files\"
+xcopy /Y /E "..\..\..\programs\OpenTouryoAssemblies\Build_netcore30" "ASPNETWebServiceCore\Assemblies\"
+echo F | xcopy /Y /E "..\..\..\files\resource\X509\SHA256RSA_Server.cer" "ASPNETWebServiceCore\X509\SHA256RSA_Server.cer"
+copy /Y "ASPNETWebServiceCore.csproj" "ASPNETWebServiceCore\ASPNETWebServiceCore.csproj"
+copy /Y "appsettings.json" "Host\appsettings.json"
+del /Q "Host\Dockerfile"
