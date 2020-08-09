@@ -17,6 +17,7 @@
 //*  20xx/xx/xx  ＸＸ ＸＸ         ＸＸＸＸ
 //**********************************************************************************
 
+using System;
 using System.Net.Http;
 
 using Microsoft.AspNetCore.Hosting;
@@ -35,7 +36,20 @@ namespace ASPNETWebServiceCore
         public static void Main(string[] args)
         {
             // JwkSet取得用
-            OAuth2AndOIDCClient.HttpClient = new HttpClient();
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                OAuth2AndOIDCClient.HttpClient = new HttpClient();
+            }
+            else
+            {
+                //OAuth2AndOIDCClient.HttpClient = new HttpClient();
+
+                // 暫定
+                HttpClientHandler handler = new HttpClientHandler();
+                handler.ServerCertificateCustomValidationCallback 
+                    = (message, cert, chain, sslPlicyErrors) => true;
+                OAuth2AndOIDCClient.HttpClient = new HttpClient(handler);
+            }
 
             // BuildWebHostが返すIWebHostをRunする。
             // 呼び出し元スレッドは終了までブロックされる。
@@ -49,7 +63,15 @@ namespace ASPNETWebServiceCore
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                	string url = Environment.GetEnvironmentVariable("UseUrl");
+                    if (string.IsNullOrEmpty(url))
+                    {
+                        url = "http://0.0.0.0:5000/";
+                    }
+
+                    webBuilder//.UseStartup<Startup>();
+                        .UseStartup<Startup>() // IWebHostBuilder.UseStartup<TStartup> メソッドにStartupクラスを指定。
+                        .UseUrls(url); // 使用するプロトコルとポートを決定する。
                 });
     }
 }

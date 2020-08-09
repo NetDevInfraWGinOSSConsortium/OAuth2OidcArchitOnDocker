@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  aspnetwebservicecore:
+    environment:
+      - UseUrl=http://0.0.0.0:5000/;https://0.0.0.0:5001/
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=seigi@123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/aspnetapp.pfx
+      - ConnectionString_SQL=Data Source=sqlserver;Initial Catalog=Northwind;User ID=sa;Password=seigi@123;
+      - ConnectionString_MCN=Server=mysql;Database=test;User Id=root;Password=seigi@123;
+      - ConnectionString_NPS=HOST=postgres;DATABASE=postgres;USER ID=postgres;PASSWORD=seigi@123;
+    ports:
+      - "44335:5001"
+    networks:
+      - common_link
+
+networks:
+  common_link:
+    external: true

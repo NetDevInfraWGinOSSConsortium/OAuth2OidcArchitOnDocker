@@ -17,15 +17,15 @@
 //*  20xx/xx/xx  ＸＸ ＸＸ         ＸＸＸＸ
 //**********************************************************************************
 
-using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
+using System.Reflection;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 // using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
@@ -57,7 +57,7 @@ namespace ASPNETWebServiceCore
             // Dockerで埋め込まれたリソースを使用する場合、
             // 以下のコメントアウトを解除し、appsettings.jsonのappSettings sectionに、
             // "Azure": "既定の名前空間" を指定し、設定ファイルを埋め込まれたリソースに変更する。
-            //Touryo.Infrastructure.Business.Dao.MyBaseDao.UseEmbeddedResource = true;
+            Touryo.Infrastructure.Business.Dao.MyBaseDao.UseEmbeddedResource = true;
         }
 
         #endregion
@@ -70,21 +70,10 @@ namespace ASPNETWebServiceCore
         /// </summary>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // The default HSTS value is 30 days.
-                // You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
             // HttpContextのマイグレーション用
             app._UseHttpContextAccessor();
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -114,6 +103,9 @@ namespace ASPNETWebServiceCore
         {
             // 構成情報から、AppConfiguration SectionをAppConfiguration Classへバインドするようなケース。
             //services.Configure<AppConfiguration>(Configuration.GetSection("AppConfiguration"));
+
+            // カレント・ディレクトリを変更する。
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
 
             // HttpContextのマイグレーション用
             services._AddHttpContextAccessor();

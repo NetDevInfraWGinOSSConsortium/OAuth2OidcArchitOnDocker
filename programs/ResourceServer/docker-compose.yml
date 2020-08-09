@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  aspnetwebservicecore:
+    image: ${DOCKER_REGISTRY-}aspnetwebservicecore
+    build:
+      context: .
+      dockerfile: ASPNETWebServiceCore/Dockerfile
