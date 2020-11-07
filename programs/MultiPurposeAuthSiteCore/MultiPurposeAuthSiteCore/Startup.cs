@@ -121,7 +121,7 @@ namespace MultiPurposeAuthSite
                 {
                     Expiration = TimeSpan.FromDays(1), // 効かない
                     HttpOnly = true,
-                    Name = GetConfigParameter.GetAnyConfigValue("sessionState:SessionCookieName"),
+                    Name = GetConfigParameter.GetConfigValue("FxSessionCookieName"),
                     Path = "/",
                     SameSite = SameSiteMode.Strict,
                     SecurePolicy = CookieSecurePolicy.SameAsRequest
@@ -284,7 +284,7 @@ namespace MultiPurposeAuthSite
             // DataProtection
             services
                 .AddDataProtection()
-                .SetApplicationName("MultiPurposeAuthSiteCore")
+                .SetApplicationName(GetConfigParameter.GetConfigValue("FxApplicationName"))
                 .PersistKeysToStackExchangeRedis(redis, "DataProtectionKeys");
 
             // Sessionのモード
@@ -382,7 +382,6 @@ namespace MultiPurposeAuthSite
                     // トークン
                     // https://docs.microsoft.com/ja-jp/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-2.2#tokens
                     //idOptions.Tokens...
-
                 });
 
             services.Configure<IdentityOptions>(IdentityOptionsConf);
@@ -405,7 +404,7 @@ namespace MultiPurposeAuthSite
                     options.SlidingExpiration = true;
 
                     //options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                    //options.Cookie.Name = "YourAppCookieName";
+                    options.Cookie.Name = GetConfigParameter.GetConfigValue("FxApplicationName") + "_AuthCookie";
                     options.Cookie.HttpOnly = true;
                     
                     options.Events = options.Events = new CookieAuthenticationEvents()
