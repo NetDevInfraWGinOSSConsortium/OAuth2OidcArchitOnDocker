@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  multipurposeauthsitecore:
+  multipurposeauthsitecore1:
     image: osscjpdevinfra/multipurposeauthsitecore:OAuth2OidcArchitOnDocker
     environment:
       - UseUrl=http://0.0.0.0:5000/;https://0.0.0.0:5001/
@@ -12,8 +12,45 @@ services:
       - ConnectionString_SQL=Data Source=sqlserver;Initial Catalog=Northwind;User ID=sa;Password=seigi@123;
       - ConnectionString_MCN=Server=mysql;Database=test;User Id=root;Password=seigi@123;
       - ConnectionString_NPS=HOST=postgres;DATABASE=postgres;USER ID=postgres;PASSWORD=seigi@123;
+      - FxSessionCookieName=MultiPurposeAuthSiteCoreSession1
+      - FxApplicationName=MultiPurposeAuthSiteCore1
+      - MicrosoftAccountAuthentication=true
+      - MicrosoftAccountAuthenticationClientId=XXXXX
+      - MicrosoftAccountAuthenticationClientSecret=XXXXX
+      - GoogleAuthentication=true
+      - GoogleAuthenticationClientId=XXXXX
+      - GoogleAuthenticationClientSecret=XXXXX
+      - FacebookAuthentication=true
+      - FacebookAuthenticationClientId=XXXXX
+      - FacebookAuthenticationClientSecret=XXXXX
+      - TwitterAuthentication=true
+      - TwitterAuthenticationClientId=XXXXX
+      - TwitterAuthenticationClientSecret=XXXXX
+      - IdFederationAuthorizeEndPoint=https://localhost:44301/authorize
+      - IdFederationTokenEndPoint=http://multipurposeauthsitecore2:5000/token
+      - IdFederationUserInfoEndPoint=http://multipurposeauthsitecore2:5000/userinfo
+      
     ports:
       - "44300:5001"
+    networks:
+      - common_link
+
+  multipurposeauthsitecore2:
+    image: osscjpdevinfra/multipurposeauthsitecore:OAuth2OidcArchitOnDocker
+    environment:
+      - UseUrl=http://0.0.0.0:5000/;https://0.0.0.0:5001/
+      - RedisConfig=redis
+      - RedisInstanceName=redis
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=seigi@123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/aspnetapp.pfx
+      - ConnectionString_SQL=Data Source=sqlserver;Initial Catalog=Northwind;User ID=sa;Password=seigi@123;
+      - ConnectionString_MCN=Server=mysql;Database=test;User Id=root;Password=seigi@123;
+      - ConnectionString_NPS=HOST=postgres;DATABASE=postgres;USER ID=postgres;PASSWORD=seigi@123;
+      - FxSessionCookieName=MultiPurposeAuthSiteCoreSession2
+      - FxApplicationName=MultiPurposeAuthSiteCore2
+      
+    ports:
+      - "44301:5001"
     networks:
       - common_link
 
