@@ -208,7 +208,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             get
             {
-                return GetConfigParameter.GetConfigValue("FxSessionCookieName");
+                return GetConfigParameter.GetAnyConfigValue("sessionState:SessionCookieName");
             }
         }
 

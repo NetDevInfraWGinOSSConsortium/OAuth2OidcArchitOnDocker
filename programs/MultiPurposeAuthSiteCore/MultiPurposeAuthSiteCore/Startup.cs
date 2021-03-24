@@ -121,7 +121,7 @@ namespace MultiPurposeAuthSite
                 {
                     Expiration = TimeSpan.FromDays(1), // 効かない
                     HttpOnly = true,
-                    Name = GetConfigParameter.GetConfigValue("FxSessionCookieName"),
+                    Name = GetConfigParameter.GetAnyConfigValue("sessionState:SessionCookieName"),
                     Path = "/",
                     SameSite = SameSiteMode.Strict,
                     SecurePolicy = CookieSecurePolicy.SameAsRequest
@@ -284,7 +284,7 @@ namespace MultiPurposeAuthSite
             // DataProtection
             services
                 .AddDataProtection()
-                .SetApplicationName(GetConfigParameter.GetConfigValue("FxApplicationName"))
+                .SetApplicationName(GetConfigParameter.GetAnyConfigValue("sessionState:ApplicationName"))
                 .PersistKeysToStackExchangeRedis(redis, "DataProtectionKeys");
 
             // Sessionのモード
@@ -404,7 +404,7 @@ namespace MultiPurposeAuthSite
                     options.SlidingExpiration = true;
 
                     //options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                    options.Cookie.Name = GetConfigParameter.GetConfigValue("FxApplicationName") + "_AuthCookie";
+                    options.Cookie.Name = GetConfigParameter.GetAnyConfigValue("sessionState:ApplicationName") + "_AuthCookie";
                     options.Cookie.HttpOnly = true;
                     
                     options.Events = options.Events = new CookieAuthenticationEvents()
