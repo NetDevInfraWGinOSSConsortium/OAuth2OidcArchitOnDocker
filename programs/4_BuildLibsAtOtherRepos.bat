@@ -10,7 +10,7 @@ setlocal
 set zipfilename=Temp2.zip
 
 @rem GitHubのZIPパス
-set branchName=01-95
+set branchName=01-99
 set srcUrl=https://github.com/OpenTouryoProject/MultiPurposeAuthSite/archive/%branchName%.zip
 
 @rem 解凍ディレクトリ

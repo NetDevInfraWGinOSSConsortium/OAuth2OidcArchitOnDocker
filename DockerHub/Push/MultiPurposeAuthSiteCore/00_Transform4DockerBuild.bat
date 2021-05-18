@@ -1,6 +1,6 @@
 xcopy /Y /E "..\..\..\programs\MultiPurposeAuthSiteCore\MultiPurposeAuthSiteCore" "MultiPurposeAuthSiteCore\"
 xcopy /Y /E "..\..\..\files\resource" "MultiPurposeAuthSiteCore\"
-xcopy /Y /E "..\..\..\programs\OpenTouryoAssemblies\Build_netcore30" "MultiPurposeAuthSiteCore\Assemblies\"
+xcopy /Y /E "..\..\..\programs\OpenTouryoAssemblies\Build_netcore50" "MultiPurposeAuthSiteCore\Assemblies\"
 xcopy /Y /E "..\..\..\programs\CommonLibrary\bin\netcore\Debug" "MultiPurposeAuthSiteCore\Assemblies\"
 copy /Y "MultiPurposeAuthSiteCore.csproj" "MultiPurposeAuthSiteCore\MultiPurposeAuthSiteCore.csproj"
 copy /Y "appsettings.json" "MultiPurposeAuthSiteCore\appsettings.json"

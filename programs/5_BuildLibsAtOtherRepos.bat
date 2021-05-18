@@ -10,7 +10,7 @@ setlocal
 set zipfilename=Temp3.zip
 
 @rem GitHubのZIPパス
-set branchName=0x-xx
+set branchName=01-20
 set srcUrl=https://github.com/OpenTouryoProject/ResourceServerTemplates/archive/%branchName%.zip
 
 @rem 解凍ディレクトリ

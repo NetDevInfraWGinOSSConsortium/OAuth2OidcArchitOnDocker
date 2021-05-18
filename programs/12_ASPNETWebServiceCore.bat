@@ -20,9 +20,11 @@ call %CURRENT_DIR%z_Common.bat
 @rem Grep & Replace
 @rem --------------------------------------------------
 set PATH=C:\Program Files (x86)\sakura;%PATH%
-sakura -GREPMODE -GKEY="..\..\OpenTouryoAssemblies" -GREPR="..\OpenTouryoAssemblies" -GFOLDER=".\WSIFType_sample" -GFILE="*.csproj" -GOPT=PU
-sakura -GREPMODE -GKEY="..\..\OpenTouryoAssemblies" -GREPR="..\OpenTouryoAssemblies" -GFOLDER=".\WSServer_sample" -GFILE="*.csproj" -GOPT=PU
 
+sakura -GREPMODE -GKEY="..\..\OpenTouryoAssemblies" -GREPR="..\OpenTouryoAssemblies" -GFOLDER=".\WSIFType_sample" -GFILE="*.csproj" -GOPT=PU
+pause
+
+sakura -GREPMODE -GKEY="..\..\OpenTouryoAssemblies" -GREPR="..\OpenTouryoAssemblies" -GFOLDER=".\WSServer_sample" -GFILE="*.csproj" -GOPT=PU
 pause
 
 rem --------------------------------------------------

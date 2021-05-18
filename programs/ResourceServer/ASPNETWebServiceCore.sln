@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WSServer_sample", "..\WSSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WSIFType_sample", "..\WSIFType_sample\WSIFType_sample.csproj", "{44765CFC-87DA-4C30-B84B-3093CA60660E}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C3A67C1B-7EF8-4CFF-9884-4BE82641D151}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{DE96523B-FA9A-41C9-A988-BCAB147EE3A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{44765CFC-87DA-4C30-B84B-3093CA60660E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44765CFC-87DA-4C30-B84B-3093CA60660E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44765CFC-87DA-4C30-B84B-3093CA60660E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3A67C1B-7EF8-4CFF-9884-4BE82641D151}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3A67C1B-7EF8-4CFF-9884-4BE82641D151}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3A67C1B-7EF8-4CFF-9884-4BE82641D151}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3A67C1B-7EF8-4CFF-9884-4BE82641D151}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE96523B-FA9A-41C9-A988-BCAB147EE3A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE96523B-FA9A-41C9-A988-BCAB147EE3A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE96523B-FA9A-41C9-A988-BCAB147EE3A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE96523B-FA9A-41C9-A988-BCAB147EE3A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

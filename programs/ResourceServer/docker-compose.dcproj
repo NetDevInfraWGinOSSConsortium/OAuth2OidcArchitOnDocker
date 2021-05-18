@@ -3,9 +3,9 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>c3a67c1b-7ef8-4cff-9884-4be82641d151</ProjectGuid>
+    <ProjectGuid>de96523b-fa9a-41c9-a988-bcab147ee3a0</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>https://localhost:44335/</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>aspnetwebservicecore</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

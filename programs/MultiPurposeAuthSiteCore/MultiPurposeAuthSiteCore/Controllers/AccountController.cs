@@ -24,6 +24,8 @@
 //*  2020/03/04  西野 大介         CIBA対応実施
 //*  2020/07/24  西野 大介         OIDCではredirect_uriは必須。
 //*  2020/07/24  西野 大介         ID連携（Hybrid-IdP）実装の見直し
+//*  2020/11/12  西野 大介         SameSiteCookie対応 (.NET Fx側は対策不要)
+//*  2020/12/21  西野 大介         Device AuthZ対応実施
 //**********************************************************************************
 
 using MultiPurposeAuthSite.Co;
@@ -103,12 +105,15 @@ namespace MultiPurposeAuthSite.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager = null;
         #endregion
 
-        #region Else
+        #region IXXXSender
         /// <summary>IEmailSender</summary>
         private readonly IEmailSender _emailSender = null;
         /// <summary>ISmsSender</summary>
         private readonly ISmsSender _smsSender = null;
         #endregion
+
+        //  <summary>CookieOptions</summary>
+        private readonly CookieOptions _cookieOptions = null;
 
         #endregion
 
@@ -132,10 +137,18 @@ namespace MultiPurposeAuthSite.Controllers
             this._roleManager = roleManager;
             // SignInManager
             this._signInManager = signInManager;
+
             // IEmailSender
             this._emailSender = emailSender;
             // ISmsSender
             this._smsSender = smsSender;
+
+            // CookieOptions
+            CookieOptions co = new CookieOptions();
+            co.HttpOnly = true;
+            co.Secure = true;
+            co.SameSite = SameSiteMode.None;
+            this._cookieOptions = co;
         }
         #endregion
 
@@ -218,8 +231,9 @@ namespace MultiPurposeAuthSite.Controllers
             this.FxSessionAbandon();
             // SessionIDの切換にはこのコードが必要である模様。
             // https://support.microsoft.com/ja-jp/help/899918/how-and-why-session-ids-are-reused-in-asp-net
-            Response.Cookies.Set(this.SessionCookieName, "");
-            Response.Cookies.Set(OAuth2AndOIDCConst.auth_time, FormatConverter.ToW3cTimestamp(DateTime.UtcNow));
+            Response.Cookies.Set(this.SessionCookieName, "", this._cookieOptions);
+            Response.Cookies.Set(OAuth2AndOIDCConst.auth_time,
+                FormatConverter.ToW3cTimestamp(DateTime.UtcNow), this._cookieOptions);
         }
 
         #region サインイン
@@ -3952,6 +3966,43 @@ namespace MultiPurposeAuthSite.Controllers
 
         #endregion
 
+        #region Device AuthZ
+        /// <summary>
+        /// DeviceAuthZVerify画面（初期表示）
+        /// GET: /device_verify
+        /// </summary>
+        /// <returns>ActionResult</returns>
+        [HttpGet]
+        public ActionResult DeviceAuthZVerify()
+        {
+            ViewBag.ReceiveResult = false;
+            ViewBag.UserCode = StringExtractor.GetParameterFromQueryString(
+                OAuth2AndOIDCConst.user_code, Request.GetEncodedUrl());
+
+            return View("DeviceAuthZVerify");
+        }
+
+        /// <summary>
+        /// DeviceAuthZVerify画面
+        /// POST: /device_verify
+        /// </summary>
+        /// <param name="formData">IFormCollection</param>
+        /// <returns>ActionResult</returns>
+        [HttpPost]
+        public ActionResult DeviceAuthZVerify(IFormCollection formData)
+        {
+            ViewBag.ReceiveResult = false;
+
+            if (formData != null)
+            {
+                string userCode = formData[OAuth2AndOIDCConst.user_code];
+                ViewBag.ReceiveResult = Sts.DeviceAuthZProvider.ReceiveResult(userCode, User.Identity.Name, formData.ContainsKey("allow"));
+            }
+            
+            return View("DeviceAuthZVerify");
+        }
+        #endregion
+
         #region テスト用
 
         /// <summary>LoadRequestParameters</summary>
@@ -3979,7 +4030,7 @@ namespace MultiPurposeAuthSite.Controllers
                 clientId = requestCookies.Get(Const.TestClientId);
                 if (!string.IsNullOrEmpty(clientId))
                 {
-                    responseCookies.Set(Const.TestClientId, "");
+                    responseCookies.Set(Const.TestClientId, "", this._cookieOptions);
                 }
             }
 
@@ -3994,7 +4045,7 @@ namespace MultiPurposeAuthSite.Controllers
                 state = requestCookies.Get(Const.TestState);
                 if (!string.IsNullOrEmpty(clientId))
                 {
-                    responseCookies.Set(Const.TestState, "");
+                    responseCookies.Set(Const.TestState, "", this._cookieOptions);
                 }
             }
 
@@ -4009,7 +4060,7 @@ namespace MultiPurposeAuthSite.Controllers
                 redirect_uri = requestCookies.Get(Const.TestRedirectUri);
                 if (!string.IsNullOrEmpty(clientId))
                 {
-                    responseCookies.Set(Const.TestRedirectUri, "");
+                    responseCookies.Set(Const.TestRedirectUri, "", this._cookieOptions);
                 }
             }
 
@@ -4024,7 +4075,7 @@ namespace MultiPurposeAuthSite.Controllers
                 nonce = requestCookies.Get(Const.TestNonce);
                 if (!string.IsNullOrEmpty(clientId))
                 {
-                    responseCookies.Set(Const.TestNonce, "");
+                    responseCookies.Set(Const.TestNonce, "", this._cookieOptions);
                 }
             }
 
@@ -4039,7 +4090,7 @@ namespace MultiPurposeAuthSite.Controllers
                 code_verifier = requestCookies.Get(Const.TestCodeVerifier);
                 if (!string.IsNullOrEmpty(clientId))
                 {
-                    responseCookies.Set(Const.TestCodeVerifier, "");
+                    responseCookies.Set(Const.TestCodeVerifier, "", this._cookieOptions);
                 }
             }
         }

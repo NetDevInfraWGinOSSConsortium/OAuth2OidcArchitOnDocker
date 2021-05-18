@@ -20,8 +20,11 @@
 //*  2019/02/18  西野 大介         FAPI2 CC対応実施
 //*  2019/05/2*  西野 大介         SAML2対応実施
 //*  2020/01/07  西野 大介         PKCE for SPA対応実施
-//*  2020/03/04  西野 大介         CIBA対応実施
+//*  2020/03/04  西野 大介         FAPI CIBA対応実施
 //*  2020/07/24  西野 大介         OIDCではredirect_uriは必須。
+//*  2020/11/12  西野 大介         redirect_uri、ROへの対策漏れ。
+//*  2020/11/12  西野 大介         SameSiteCookie対応 (.NET Fx側は対策不要)
+//*  2020/12/18  西野 大介         Device AuthZ対応実施
 //**********************************************************************************
 
 using MultiPurposeAuthSite.Co;
@@ -46,6 +49,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http.Extensions;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -78,6 +82,13 @@ namespace MultiPurposeAuthSite.Controllers
         {
             // UserManager
             this._userManager = userManager;
+            
+            // CookieOptions
+            CookieOptions co = new CookieOptions();
+            co.HttpOnly = true;
+            co.Secure = true;
+            co.SameSite = SameSiteMode.None;
+            this._cookieOptions = co;
         }
 
         #endregion
@@ -86,6 +97,9 @@ namespace MultiPurposeAuthSite.Controllers
 
         /// <summary>UserManager</summary>
         private readonly UserManager<ApplicationUser> _userManager = null;
+
+        //  <summary>CookieOptions</summary>
+        private readonly CookieOptions _cookieOptions = null;
 
         #endregion
 
@@ -214,15 +228,15 @@ namespace MultiPurposeAuthSite.Controllers
 
             // client_id → Issuer
             HttpContext.Session.SetString(Const.TestClientId, this.ClientId);
-            responseCookies.Set(Const.TestClientId, this.ClientId);
+            responseCookies.Set(Const.TestClientId, this.ClientId, this._cookieOptions);
 
             // redirect_uri → AssertionConsumerService
             HttpContext.Session.SetString(Const.TestRedirectUri, this.RedirectUri);
-            responseCookies.Set(Const.TestRedirectUri, this.RedirectUri);
+            responseCookies.Set(Const.TestRedirectUri, this.RedirectUri, this._cookieOptions);
 
             // state → RelayState
             HttpContext.Session.SetString(Const.TestState, this.State);
-            responseCookies.Set(Const.TestState, this.State);
+            responseCookies.Set(Const.TestState, this.State, this._cookieOptions);
         }
 
         #endregion
@@ -259,27 +273,27 @@ namespace MultiPurposeAuthSite.Controllers
 
             // client_id
             HttpContext.Session.SetString(Const.TestClientId, this.ClientId);
-            responseCookies.Set(Const.TestClientId, this.ClientId);
+            responseCookies.Set(Const.TestClientId, this.ClientId, this._cookieOptions);
 
             // state
             HttpContext.Session.SetString(Const.TestState, this.State);
-            responseCookies.Set(Const.TestState, this.State);
+            responseCookies.Set(Const.TestState, this.State, this._cookieOptions);
 
             // redirect_uri
             if (!isOidc)
             {
                 // OIDCはTokenリクエストにredirect_uriを指定しない。
                 HttpContext.Session.SetString(Const.TestRedirectUri, this.RedirectUri);
-                responseCookies.Set(Const.TestRedirectUri, this.RedirectUri);
+                responseCookies.Set(Const.TestRedirectUri, this.RedirectUri, this._cookieOptions);
             }
 
             // nonce
             HttpContext.Session.SetString(Const.TestNonce, this.Nonce);
-            responseCookies.Set(Const.TestNonce, this.Nonce);
+            responseCookies.Set(Const.TestNonce, this.Nonce, this._cookieOptions);
 
             // code_verifier
             HttpContext.Session.SetString(Const.TestCodeVerifier, this.CodeVerifier);
-            responseCookies.Set(Const.TestCodeVerifier, this.CodeVerifier);
+            responseCookies.Set(Const.TestCodeVerifier, this.CodeVerifier, this._cookieOptions);
         }
 
         #endregion
@@ -406,7 +420,9 @@ namespace MultiPurposeAuthSite.Controllers
 
             if (this.ClarifyRedirectUri)
         {
-                this.RedirectUri = Helper.GetInstance().GetClientsRedirectUri(this.ClientId, response_type);
+                //this.RedirectUri = Helper.GetInstance().GetClientsRedirectUri(this.ClientId, response_type);
+                string temp = Helper.GetInstance().GetClientsRedirectUri(this.ClientId, response_type);
+                this.RedirectUri = CmnEndpoints.GetRedirectUriFromConstr(temp);
             }
 
             // テストコードで、clientを識別するために、Stateに細工する。
@@ -476,7 +492,34 @@ namespace MultiPurposeAuthSite.Controllers
             }
         }
 
-        /// <summary>FAPI2 CIBA Profileスターターを組み立てて返す</summary>
+        #endregion
+
+        #region Back Channel
+        
+        #region Device AuthZ
+        /// <summary>Device AuthZスターターを組み立てて返す</summary>
+        /// <returns>組み立てたDevice AuthZスターター</returns>
+        private async Task<ActionResult> AssembleDeviceAuthZStarterAsync()
+        {
+            // リクエスト
+            string deviceAuthZAuthorizeEndpoint = Config.OAuth2AuthorizationServerEndpointsRootURI + Config.DeviceAuthZAuthorizeEndpoint;
+            string responseString = await Helper.GetInstance().DeviceAuthZRequestAsync(new Uri(deviceAuthZAuthorizeEndpoint), this.ClientId);
+
+            // レスポンス
+            JObject responseJObject = (JObject)JsonConvert.DeserializeObject(responseString);
+            ViewBag.ClientId = this.ClientId;
+            ViewBag.DeviceCode = (string)responseJObject[OAuth2AndOIDCConst.device_code];
+            ViewBag.UserCode = (string)responseJObject[OAuth2AndOIDCConst.user_code];
+            string rootURI = Config.OAuth2AuthorizationServerEndpointsRootURI;
+            ViewBag.VerificationUri = rootURI + (string)responseJObject[OAuth2AndOIDCConst.verification_uri];
+            ViewBag.VerificationUriComplete = rootURI + (string)responseJObject[OAuth2AndOIDCConst.verification_uri_complete];
+            
+            return View("DeviceAuthZResponse");
+        }
+        #endregion
+
+        #region FAPI CIBA
+        /// <summary>FAPI CIBA Profileスターターを組み立てて返す</summary>
         /// <returns>組み立てたFAPI2 CIBA Profileスターター</returns>
         private async Task<string> AssembleFAPICibaProfileStarterAsync()
         {
@@ -540,7 +583,6 @@ namespace MultiPurposeAuthSite.Controllers
                 // Tokenリクエスト
                 bool continueLoop = true;
                 string result = "";
-                ExponentialBackoff exponentialBackoff = new ExponentialBackoff(10, 5); // config化必要？
 
                 while (continueLoop)
                 {
@@ -565,8 +607,7 @@ namespace MultiPurposeAuthSite.Controllers
                         if ((string)temp[OAuth2AndOIDCConst.error] == OAuth2AndOIDCEnum.CibaState.authorization_pending.ToStringByEmit())
                         {
                             // authorization_pending
-                            // ExponentialBackoff.Sleep()
-                            continueLoop = exponentialBackoff.Sleep();
+                            System.Threading.Thread.Sleep(30);
                         }
                         else
                         {
@@ -595,9 +636,13 @@ namespace MultiPurposeAuthSite.Controllers
 
         #endregion
 
+        #endregion
+
         #region Action Method
 
         #region Public
+
+        #region Starters
 
         /// <summary>
         /// SAML2OAuth2Starters画面（初期表示）
@@ -654,6 +699,16 @@ namespace MultiPurposeAuthSite.Controllers
                     {
                         // Financial-grade API - Part2用 Client
                         this.ClientName = "TestClient2";
+                    }
+                    else if (model.ClientType == OAuth2AndOIDCEnum.ClientMode.device.ToStringByEmit())
+                    {
+                        // Device Authorization Grant用 Client
+                        this.ClientName = "TestClient3";
+                    }
+                    else if (model.ClientType == OAuth2AndOIDCEnum.ClientMode.fapi_ciba.ToStringByEmit())
+                    {
+                        // Financial-grade API - CIBA用 Client
+                        this.ClientName = "TestClient4";
                     }
                     else
                     {
@@ -797,17 +852,21 @@ namespace MultiPurposeAuthSite.Controllers
                         #endregion
 
                         #region Another系
-                        if (!string.IsNullOrEmpty(Request.Form["submit.TestResourceOwnerPasswordCredentialsFlow"]))
+                        if (!string.IsNullOrEmpty(Request.Form["submit.ResourceOwnerPasswordCredentialsFlow"]))
                         {
-                            return await this.TestResourceOwnerPasswordCredentialsFlow();
+                            return await this.ResourceOwnerPasswordCredentialsFlow();
                         }
-                        else if (!string.IsNullOrEmpty(Request.Form["submit.TestClientCredentialsFlow"]))
+                        else if (!string.IsNullOrEmpty(Request.Form["submit.ClientCredentialsFlow"]))
                         {
-                            return await this.TestClientCredentialsFlow();
+                            return await this.ClientCredentialsFlow();
                         }
-                        else if (!string.IsNullOrEmpty(Request.Form["submit.TestJWTBearerTokenFlow"]))
+                        else if (!string.IsNullOrEmpty(Request.Form["submit.JWTBearerTokenFlow"]))
                         {
-                            return await this.TestJWTBearerTokenFlow();
+                            return await this.JWTBearerTokenFlow();
+                        }
+                        else if (!string.IsNullOrEmpty(Request.Form["submit.DeviceAuthZGrant"]))
+                        {
+                            return await this.DeviceAuthZAsync();
                         }
                         #endregion
 
@@ -820,6 +879,78 @@ namespace MultiPurposeAuthSite.Controllers
                 return View(model);
             }
         }
+
+        #endregion
+
+        #region Device AuthZ
+
+        /// <summary>
+        /// DeviceAuthZResponse画面
+        /// POST: /Home/DeviceAuthZResponse
+        /// </summary>
+        /// <param name="formData">IFormCollection</param>
+        /// <returns>ActionResult</returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> DeviceAuthZResponse(IFormCollection formData)
+        {
+            // Tokenエンドポイントに対してポーリングを行う。
+
+            // Tokenエンドポイントにアクセス
+
+            // URL
+            Uri tokenEndpointUri = new Uri(
+                Config.OAuth2AuthorizationServerEndpointsRootURI + Config.OAuth2TokenEndpoint);
+            // else. 
+            string client_id = formData[OAuth2AndOIDCConst.client_id];
+            string device_code = formData[OAuth2AndOIDCConst.device_code];
+
+            // Tokenリクエスト
+            bool continueLoop = true;
+            string result = "";
+            ExponentialBackoff exponentialBackoff = new ExponentialBackoff(10, 5); // config化必要？
+
+            while (continueLoop)
+            {
+                string response = await Helper.GetInstance().GetAccessTokenByDeviceAuthZAsync(
+                    tokenEndpointUri, client_id, device_code);
+
+                JObject temp = (JObject)JsonConvert.DeserializeObject(response);
+
+                if (!temp.ContainsKey(OAuth2AndOIDCConst.error))
+                {
+                    // 正常系
+                    continueLoop = false;
+
+                    // UserInfoエンドポイントにアクセス
+                    string userInfo = await Helper.GetInstance().
+                        GetUserInfoAsync((string)temp[OAuth2AndOIDCConst.AccessToken]);
+
+                    result = "NORMAL_END";
+                }
+                else
+                {
+                    // 異常系
+                    if ((string)temp[OAuth2AndOIDCConst.error] == OAuth2AndOIDCEnum.CibaState.authorization_pending.ToStringByEmit())
+                    {
+                        // authorization_pending
+                        continueLoop = exponentialBackoff.Sleep();
+                    }
+                    else
+                    {
+                        // authorization_pending以外
+                        // 終了
+                        continueLoop = false;
+                        result = "ABNORMAL_END";
+                    }
+                }
+            }
+
+            // 完了（SAMLのテストコードっぽくした）
+            return Redirect(Config.OAuth2AuthorizationServerEndpointsRootURI + "?ret=OK_" + result);
+        }
+
+        #endregion
 
         #endregion
 
@@ -905,7 +1036,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             this.InitOAuth2Params();
 
-            // Authorization Code Flow
+            // Assemble
             string redirect = this.AssembleOAuth2Starter(
                 OAuth2AndOIDCConst.AuthorizationCodeResponseType);
 
@@ -924,7 +1055,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             this.InitOAuth2Params();
 
-            // Authorization Code Flow (OIDC)
+            // Assemble
             string redirect = this.AssembleOidcStarter(
                 OAuth2AndOIDCConst.AuthorizationCodeResponseType)
                 + "&prompt=none";
@@ -949,7 +1080,7 @@ namespace MultiPurposeAuthSite.Controllers
             this.CodeVerifier = GetPassword.Base64UrlSecret(50);
             this.CodeChallenge = this.CodeVerifier;
 
-            // Authorization Code Flow (PKCE plain)
+            // Assemble
             string redirect = this.AssembleOAuth2Starter(
                 OAuth2AndOIDCConst.AuthorizationCodeResponseType)
                 + "&code_challenge=" + this.CodeChallenge
@@ -974,7 +1105,7 @@ namespace MultiPurposeAuthSite.Controllers
             this.CodeVerifier = GetPassword.Base64UrlSecret(50);
             this.CodeChallenge = OAuth2AndOIDCClient.PKCE_S256_CodeChallengeMethod(this.CodeVerifier);
 
-            // Authorization Code Flow (PKCE S256)
+            // Assemble
             string redirect = this.AssembleOAuth2Starter(
                 OAuth2AndOIDCConst.AuthorizationCodeResponseType)
                 + "&code_challenge=" + this.CodeChallenge
@@ -1002,7 +1133,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             this.InitOAuth2Params();
 
-            // Implicit Flow
+            // Assemble
             string redirect = this.AssembleOAuth2Starter(
                 OAuth2AndOIDCConst.ImplicitResponseType);
 
@@ -1021,7 +1152,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             this.InitOAuth2Params();
 
-            // Implicit Flow 'id_token'(OIDC)
+            // Assemble 'id_token'(OIDC)
             string redirect = this.AssembleOidcStarter(
                 OAuth2AndOIDCConst.OidcImplicit1_ResponseType);
 
@@ -1037,7 +1168,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             this.InitOAuth2Params();
 
-            // Implicit Flow 'id_token token'(OIDC)
+            // Assemble 'id_token token'(OIDC)
             string redirect = this.AssembleOidcStarter(
                 OAuth2AndOIDCConst.OidcImplicit2_ResponseType);
 
@@ -1060,7 +1191,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             this.InitOAuth2Params();
 
-            // Hybrid Flow 'code id_token'(OIDC)
+            // Assemble 'code id_token'(OIDC)
             string redirect = this.AssembleOidcStarter(
                 OAuth2AndOIDCConst.OidcHybrid2_IdToken_ResponseType);
 
@@ -1075,7 +1206,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             this.InitOAuth2Params();
 
-            // Hybrid Flow 'code token'(OIDC)
+            // Assemble 'code token'(OIDC)
             string redirect = this.AssembleOidcStarter(
                 OAuth2AndOIDCConst.OidcHybrid2_Token_ResponseType);
 
@@ -1090,7 +1221,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             this.InitOAuth2Params();
 
-            // Hybrid Flow 'code id_token token'(OIDC)
+            // Assemble 'code id_token token'(OIDC)
             string redirect = this.AssembleOidcStarter(
                 OAuth2AndOIDCConst.OidcHybrid3_ResponseType);
 
@@ -1113,7 +1244,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             this.InitOAuth2Params();
 
-            // Authorization Code Flow (FAPI1)
+            // Assemble
             string redirect = this.AssembleFAPI1Starter(
                 OAuth2AndOIDCConst.AuthorizationCodeResponseType);
 
@@ -1128,7 +1259,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             this.InitOAuth2Params();
 
-            // Authorization Code Flow (FAPI1, OIDC)
+            // Assemble
             string redirect = this.AssembleFAPI1_OIDCStarter(
                 OAuth2AndOIDCConst.AuthorizationCodeResponseType);
 
@@ -1147,7 +1278,7 @@ namespace MultiPurposeAuthSite.Controllers
             this.CodeVerifier = GetPassword.Base64UrlSecret(50);
             this.CodeChallenge = OAuth2AndOIDCClient.PKCE_S256_CodeChallengeMethod(this.CodeVerifier);
 
-            // Authorization Code Flow (FAPI1 PC, PKCE)
+            // Assemble
             string redirect = this.AssembleFAPI1_OIDCStarter(
                 OAuth2AndOIDCConst.AuthorizationCodeResponseType)
                 + "&code_challenge=" + this.CodeChallenge
@@ -1168,7 +1299,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             this.InitOAuth2Params();
 
-            // Authorization Code Flow
+            // Assemble
             string redirect = await this.AssembleFAPI2CCStarterAsync(
                 OAuth2AndOIDCConst.AuthorizationCodeResponseType);
 
@@ -1187,7 +1318,7 @@ namespace MultiPurposeAuthSite.Controllers
         {
             this.InitOAuth2Params();
 
-            // Authorization Code Flow
+            // Assemble
             string redirect = await this.AssembleFAPICibaProfileStarterAsync();
 
             //this.SaveOAuth2Params();
@@ -1205,7 +1336,7 @@ namespace MultiPurposeAuthSite.Controllers
 
         /// <summary>TestResourceOwnerPasswordCredentialsFlow</summary>
         /// <returns>ActionResult</returns>
-        private async Task<ActionResult> TestResourceOwnerPasswordCredentialsFlow()
+        private async Task<ActionResult> ResourceOwnerPasswordCredentialsFlow()
         {
             // Tokenエンドポイントにアクセス
             string aud = Config.OAuth2AuthorizationServerEndpointsRootURI + Config.OAuth2TokenEndpoint;
@@ -1231,7 +1362,7 @@ namespace MultiPurposeAuthSite.Controllers
 
         /// <summary>TestClientCredentialsFlow</summary>
         /// <returns>ActionResult</returns>
-        private async Task<ActionResult> TestClientCredentialsFlow()
+        private async Task<ActionResult> ClientCredentialsFlow()
         {
             // Tokenエンドポイントにアクセス
             string aud = Config.OAuth2AuthorizationServerEndpointsRootURI + Config.OAuth2TokenEndpoint;
@@ -1257,7 +1388,7 @@ namespace MultiPurposeAuthSite.Controllers
 
         /// <summary>TestJWTBearerTokenFlow</summary>
         /// <returns>ActionResult</returns>
-        private async Task<ActionResult> TestJWTBearerTokenFlow()
+        private async Task<ActionResult> JWTBearerTokenFlow()
         {
             // Tokenエンドポイントにアクセス
             string aud = Config.OAuth2AuthorizationServerEndpointsRootURI + Config.OAuth2TokenEndpoint;
@@ -1281,6 +1412,19 @@ namespace MultiPurposeAuthSite.Controllers
             ViewBag.AccessToken = ((JObject)JsonConvert.DeserializeObject(response))[OAuth2AndOIDCConst.AccessToken];
 
             return View("OAuth2ClientAuthenticationFlow");
+        }
+
+        #endregion
+
+        #region Device AuthZ
+
+        /// <summary>Test Device AuthZ</summary>
+        /// <returns>ActionResult</returns>
+        private async Task<ActionResult> DeviceAuthZAsync()
+        {
+            this.InitOAuth2Params();
+            //this.SaveOAuth2Params();
+            return await this.AssembleDeviceAuthZStarterAsync();
         }
 
         #endregion

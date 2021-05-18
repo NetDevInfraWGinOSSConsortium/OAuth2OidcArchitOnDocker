@@ -71,8 +71,8 @@ namespace ASPNETWebServiceCore.Controllers
     [EnableCors]
     [ApiController]
     [MyBaseAsyncApiController(httpAuthHeader:
-        // EnumHttpAuthHeader.None | // 認証無くても通すので、
-        EnumHttpAuthHeader.Bearer)] // Bearer認証の結果をGetClaimsで検証。
+        EnumHttpAuthHeader.None // 認証無くても通すので、
+        | EnumHttpAuthHeader.Bearer)] // Bearer認証の結果をGetClaimsで検証。
     [Route("api/[controller]/[action]")]
     public class JsonController : ControllerBase
     {

@@ -3,9 +3,9 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>38b74a69-a8cf-41e4-ba8b-f782427fadd3</ProjectGuid>
+    <ProjectGuid>9e3cd681-37e0-4a9c-a856-004abadd4a83</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>https://localhost:44300/</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>multipurposeauthsitecore</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

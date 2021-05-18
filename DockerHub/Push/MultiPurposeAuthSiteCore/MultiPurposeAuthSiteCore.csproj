@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
     <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
     <UserSecretsId>aspnet-MultiPurposeAuthSite-4D4ED842-8221-4C3E-A9D4-5295FF6E400D</UserSecretsId>
@@ -9,8 +9,6 @@
     <AssemblyName>MultiPurposeAuthSite</AssemblyName>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -229,19 +227,19 @@
 
   <ItemGroup>
     <Reference Include="MultiPurposeAuthSite.NetCoreLibrary">
-      <HintPath>Assemblies\netcoreapp3.0\MultiPurposeAuthSite.NetCoreLibrary.dll</HintPath>
+      <HintPath>Assemblies\net5.0\MultiPurposeAuthSite.NetCoreLibrary.dll</HintPath>
     </Reference>
     <Reference Include="OpenTouryo.Business">
-      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.Business.dll</HintPath>
+      <HintPath>Assemblies\net5.0\OpenTouryo.Business.dll</HintPath>
     </Reference>
     <Reference Include="OpenTouryo.Framework">
-      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.Framework.dll</HintPath>
+      <HintPath>Assemblies\net5.0\OpenTouryo.Framework.dll</HintPath>
     </Reference>
     <Reference Include="OpenTouryo.Public">
-      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.Public.dll</HintPath>
+      <HintPath>Assemblies\net5.0\OpenTouryo.Public.dll</HintPath>
     </Reference>
     <Reference Include="OpenTouryo.Public.Security">
-      <HintPath>Assemblies\netcoreapp3.0\OpenTouryo.Public.Security.dll</HintPath>
+      <HintPath>Assemblies\net5.0\OpenTouryo.Public.Security.dll</HintPath>
     </Reference>
   </ItemGroup>
 

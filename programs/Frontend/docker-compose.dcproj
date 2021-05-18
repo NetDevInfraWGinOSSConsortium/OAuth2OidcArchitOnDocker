@@ -3,9 +3,9 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>2cb6bee1-2127-4f20-b125-9623a5a5cc1a</ProjectGuid>
+    <ProjectGuid>c53143bb-d935-4382-a800-03f9ce33d942</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>http://localhost:3000</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>frontendhost</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
