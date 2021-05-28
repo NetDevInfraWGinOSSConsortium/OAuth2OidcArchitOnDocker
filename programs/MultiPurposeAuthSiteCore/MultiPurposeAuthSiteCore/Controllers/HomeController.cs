@@ -1334,7 +1334,7 @@ namespace MultiPurposeAuthSite.Controllers
 
         #region Resource Owner Password Credentials Flow
 
-        /// <summary>TestResourceOwnerPasswordCredentialsFlow</summary>
+        /// <summary>Test Resource Owner Password Credentials Flow</summary>
         /// <returns>ActionResult</returns>
         private async Task<ActionResult> ResourceOwnerPasswordCredentialsFlow()
         {
@@ -1360,7 +1360,7 @@ namespace MultiPurposeAuthSite.Controllers
 
         #region Client Credentials Flow
 
-        /// <summary>TestClientCredentialsFlow</summary>
+        /// <summary>Test Client Credentials Flow</summary>
         /// <returns>ActionResult</returns>
         private async Task<ActionResult> ClientCredentialsFlow()
         {
@@ -1386,7 +1386,7 @@ namespace MultiPurposeAuthSite.Controllers
 
         #region JWT Bearer Token Flow
 
-        /// <summary>TestJWTBearerTokenFlow</summary>
+        /// <summary>Test JWT Bearer Token Flow</summary>
         /// <returns>ActionResult</returns>
         private async Task<ActionResult> JWTBearerTokenFlow()
         {
